@@ -32,9 +32,17 @@ func createCard(c echo.Context) error {
 		})
 	}
 
-	return c.String(201, "Created")
+	return c.JSON(201, card)
 }
 
 func getCards(c echo.Context) error {
-	return c.String(200, "Cards")
+	cards, err := GetCards()
+	if err != nil {
+		return c.JSON(500, map[string]interface{}{
+			"title":   "Internal Server Error",
+			"status":  500,
+			"message": "Unable to get cards",
+		})
+	}
+	return c.JSON(200, map[string]interface{}{"data": cards})
 }

@@ -1,6 +1,7 @@
 package card
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -27,4 +28,25 @@ func CreateCard(card *Card) error {
 	}
 
 	return nil
+}
+
+func GetCards() ([]Card, error) {
+	file, err := os.OpenFile("./tmp/cards.txt", os.O_RDONLY, 0777)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	cards := []Card{}
+
+	sc := bufio.NewScanner(file)
+	for sc.Scan() {
+		var card Card
+		if err := json.Unmarshal(sc.Bytes(), &card); err != nil {
+			return nil, err
+		}
+		cards = append(cards, card)
+	}
+
+	return cards, nil
 }

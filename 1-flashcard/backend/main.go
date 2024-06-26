@@ -15,7 +15,16 @@ type CustomValidator struct {
 
 func (cv *CustomValidator) Validate(i interface{}) error {
 	if err := cv.validator.Struct(i); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		errs := err.(validator.ValidationErrors)
+		violations := []string{}
+		for _, e := range errs {
+			violations = append(violations, e.Error())
+		}
+		return echo.NewHTTPError(http.StatusBadRequest, map[string]interface{}{
+			"title":      "Bad Request",
+			"status":     400,
+			"violations": violations,
+		})
 	}
 	return nil
 }

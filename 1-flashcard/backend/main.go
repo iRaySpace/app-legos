@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"irayspace.com/flashcard/app/card"
 )
 
@@ -31,6 +32,8 @@ func (cv *CustomValidator) Validate(i interface{}) error {
 
 func main() {
 	e := echo.New()
+
+	e.Use(middleware.CORS())
 	e.Validator = &CustomValidator{validator: validator.New()}
 
 	g := e.Group("/api/v1")

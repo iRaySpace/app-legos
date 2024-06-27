@@ -6,25 +6,28 @@
                     <h1 class="text-3xl font-poppins font-black">
                         Flashcard
                     </h1>
-                    <button class="btn btn-sm font-poppins">
-                        Add Card
+                    <button class="btn btn-sm btn-primary font-poppins">
+                        Review
                     </button>
                 </div>
             </div>
             <div class="card shadow-xl">
                 <div class="card-body">
-                    <h2 class="card-title font-poppins font-bold">Card List</h2>
-                    <table class="table font-poppins">
+                    <div class="flex justify-between">
+                        <h2 class="card-title font-poppins font-bold">Card List</h2>
+                        <div class="card-actions">
+                            <button class="btn btn-sm font-poppins">Add Card</button>
+                        </div>
+                    </div>
+                    <table class="table border border-separate rounded-lg font-poppins">
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>Front</th>
                                 <th>Back</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(card, index) in cards">
-                                <th>{{ index + 1 }}</th>
                                 <td>{{ card.front }}</td>
                                 <td>{{ card.back }}</td>
                             </tr>

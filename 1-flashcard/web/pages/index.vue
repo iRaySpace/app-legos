@@ -6,7 +6,7 @@
                     <h1 class="text-3xl font-poppins font-black">
                         Flashcard
                     </h1>
-                    <button class="btn btn-sm btn-primary font-poppins">
+                    <button @click="review" class="btn btn-sm btn-primary font-poppins">
                         Review
                     </button>
                 </div>
@@ -58,6 +58,9 @@ export default {
                 })
         },
         addCard: function() {},
+        review: function() {
+            this.$router.push('/learn')
+        },
     }
 };
 </script>

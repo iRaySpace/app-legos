@@ -24,7 +24,7 @@ func CreateCard(card *Card) error {
 	defer file.Close()
 
 	if _, err := fmt.Fprintf(file, "%s\n", data); err != nil {
-		return nil
+		return err
 	}
 
 	return nil
@@ -38,7 +38,6 @@ func GetCards() ([]Card, error) {
 	defer file.Close()
 
 	cards := []Card{}
-
 	sc := bufio.NewScanner(file)
 	for sc.Scan() {
 		var card Card

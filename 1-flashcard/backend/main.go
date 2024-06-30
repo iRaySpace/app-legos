@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"irayspace.com/flashcard/app/card"
 	"irayspace.com/flashcard/app/learnable"
+	"irayspace.com/flashcard/app/session"
 )
 
 type CustomValidator struct {
@@ -40,6 +41,7 @@ func main() {
 	g := e.Group("/api/v1")
 	card.AttachApi(g)
 	learnable.AttachApi(g)
+	session.AttachApi(g)
 
 	log.Fatal(e.Start(":8000"))
 }

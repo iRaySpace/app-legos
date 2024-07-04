@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"irayspace.com/flashcard/app/learnable"
 )
 
 func CreateSession(s *Session) error {
@@ -17,6 +18,7 @@ func CreateSession(s *Session) error {
 	for i := range s.Learnables {
 		s.Learnables[i].LastReviewAt = time.Now().Unix()
 		s.Learnables[i].Interval = s.Learnables[i].Interval + 86400 // TODO: for change on values
+		learnable.SaveLearnable(&s.Learnables[i])
 	}
 
 	file, err := os.OpenFile("./tmp/sessions.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0777)

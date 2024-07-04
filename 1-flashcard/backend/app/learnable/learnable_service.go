@@ -55,3 +55,36 @@ func GetLearnables() ([]Learnable, error) {
 
 	return learnables, nil
 }
+
+func SaveLearnable(l *Learnable) error {
+	learnables, err := GetLearnables()
+	if err != nil {
+		return err
+	}
+
+	for i := range learnables {
+		if learnables[i].ID == l.ID {
+			learnables[i].Interval = l.Interval
+			learnables[i].LastReviewAt = l.LastReviewAt
+			break
+		}
+	}
+
+	file, err := os.Create("./tmp/learnables.txt")
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	for _, l := range learnables {
+		data, err := json.Marshal(l)
+		if err != nil {
+			return err
+		}
+		if _, err := fmt.Fprintf(file, "%s\n", data); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

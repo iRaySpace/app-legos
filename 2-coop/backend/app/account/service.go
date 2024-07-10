@@ -8,7 +8,7 @@ import (
 func CreateAccount(a *Account) error {
 	a.ID = uuid.NewString()
 
-	err := data.Save("./tmp/accounts.txt", a)
+	err := data.Save("./tmp/accounts.txt", a, false)
 	if err != nil {
 		return err
 	}

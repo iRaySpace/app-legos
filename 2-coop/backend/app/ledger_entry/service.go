@@ -17,7 +17,7 @@ func CreateLedgerEntry(le *LedgerEntry) error {
 		return err
 	}
 
-	err = setAccountBalance(le)
+	err = setBalance(le)
 	if err != nil {
 		return err
 	}
@@ -25,7 +25,7 @@ func CreateLedgerEntry(le *LedgerEntry) error {
 	return nil
 }
 
-func setAccountBalance(le *LedgerEntry) error {
+func setBalance(le *LedgerEntry) error {
 	a, err := repository.FindAccountByNumber(le.Number)
 	if err != nil {
 		return err

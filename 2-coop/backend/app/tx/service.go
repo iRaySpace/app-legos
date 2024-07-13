@@ -17,16 +17,14 @@ func CreateTx(dto *CreateTxDTO) (*domain.Tx, error) {
 	}
 
 	tx := domain.Tx{
-		ID:              uuid.NewString(),
-		Amount:          dto.Amount,
-		Currency:        "PHP",
-		TxType:          dto.TxType,
-		Description:     dto.Description,
-		Source:          dto.Source,
-		Destination:     dto.Destination,
-		Balance:         0,
-		BalanceCurrency: "PHP",
-		PostedAt:        time.Now().Unix(),
+		ID:          uuid.NewString(),
+		Amount:      dto.Amount,
+		Currency:    "PHP",
+		TxType:      dto.TxType,
+		Description: dto.Description,
+		Source:      dto.Source,
+		Destination: dto.Destination,
+		PostedAt:    time.Now().Unix(),
 	}
 	err = repository.Save("./tmp/transactions.txt", tx)
 	if err != nil {
@@ -38,7 +36,8 @@ func CreateTx(dto *CreateTxDTO) (*domain.Tx, error) {
 		if err != nil {
 			return &tx, err
 		}
-		err = setDepositBalance(&tx)
+	} else if dto.TxType == "TRANSFER" {
+		err := createTransferEntries(&tx)
 		if err != nil {
 			return &tx, err
 		}
@@ -69,6 +68,7 @@ func createDepositEntry(tx *domain.Tx) error {
 		Amount:    tx.Amount,
 		Currency:  tx.Currency,
 		Direction: "DEBIT",
+		TxID:      tx.ID,
 	})
 	if err != nil {
 		return err
@@ -76,12 +76,28 @@ func createDepositEntry(tx *domain.Tx) error {
 	return nil
 }
 
-func setDepositBalance(tx *domain.Tx) error {
-	a, err := repository.FindAccountByNumber(tx.Destination.Number)
+func createTransferEntries(tx *domain.Tx) error {
+	err := ledgerentry.CreateLedgerEntry(&ledgerentry.LedgerEntry{
+		Number:    tx.Source.Number,
+		Amount:    tx.Amount,
+		Currency:  tx.Currency,
+		Direction: "CREDIT",
+		TxID:      tx.ID,
+	})
 	if err != nil {
 		return err
 	}
-	tx.Balance = a.Balance
-	repository.SaveTx(tx)
+
+	err = ledgerentry.CreateLedgerEntry(&ledgerentry.LedgerEntry{
+		Number:    tx.Destination.Number,
+		Amount:    tx.Amount,
+		Currency:  tx.Currency,
+		Direction: "DEBIT",
+		TxID:      tx.ID,
+	})
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

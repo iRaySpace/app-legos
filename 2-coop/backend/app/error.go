@@ -17,3 +17,11 @@ func NewInternalServerError(c echo.Context, m string) error {
 		"message": m,
 	})
 }
+
+func NewNotFoundError(c echo.Context, m string) error {
+	return c.JSON(404, map[string]interface{}{
+		"title":   "Not Found",
+		"status":  404,
+		"message": m,
+	})
+}

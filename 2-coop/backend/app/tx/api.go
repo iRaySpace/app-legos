@@ -1,33 +1,31 @@
-package transaction
+package tx
 
 import (
-	"fmt"
-
 	"github.com/labstack/echo/v4"
 	"irayspace.com/coop/app"
 )
 
 func AttachApi(g *echo.Group) {
-	g.POST("/transactions", createTransaction)
-	g.GET("/transactions", getTransactions)
+	g.POST("/txs", createTx)
+	g.GET("/txs", getTxs)
 }
 
-func createTransaction(c echo.Context) error {
-	t := new(Transaction)
+func createTx(c echo.Context) error {
+	t := new(CreateTxDTO)
 	if err := c.Bind(t); err != nil {
 		return app.NewBadRequestError(c, "Unable to parse data")
 	}
 
-	err := CreateTransaction(t)
+	tx, err := CreateTx(t)
 	if err != nil {
-		fmt.Println(err)
+		app.LogError(err)
 		return app.NewInternalServerError(c, "Unable to create a transaction")
 	}
 
-	return c.JSON(201, t)
+	return c.JSON(201, tx)
 }
 
-func getTransactions(c echo.Context) error {
+func getTxs(c echo.Context) error {
 	data := []string{}
 	return c.JSON(200, map[string]interface{}{"data": data})
 }

@@ -3,6 +3,7 @@ module irayspace.com/coop
 go 1.22.0
 
 require (
+	github.com/fatih/color v1.17.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/labstack/echo/v4 v4.12.0 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect

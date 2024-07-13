@@ -1,4 +1,4 @@
-package data
+package repository
 
 import (
 	"bufio"
@@ -7,8 +7,7 @@ import (
 	"os"
 )
 
-// TODO: handle existing object
-func Save(f string, v any, e bool) error {
+func Save(f string, v any) error {
 	data, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -50,4 +49,25 @@ func FindById[T HasID](f string, id string) (*T, error) {
 	}
 
 	return nil, nil
+}
+
+func GetAll[T any](f string) ([]T, error) {
+	file, err := os.OpenFile(f, os.O_RDONLY, 0777)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	data := []T{}
+
+	sc := bufio.NewScanner(file)
+	for sc.Scan() {
+		var row T
+		if err := json.Unmarshal(sc.Bytes(), &row); err != nil {
+			return nil, err
+		}
+		data = append(data, row)
+	}
+
+	return data, nil
 }

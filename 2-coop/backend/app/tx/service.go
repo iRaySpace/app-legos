@@ -24,7 +24,7 @@ func CreateTx(dto *CreateTxDTO) (*domain.Tx, error) {
 		Description: dto.Description,
 		Source:      dto.Source,
 		Destination: dto.Destination,
-		PostedAt:    time.Now().Unix(),
+		PostedAt:    time.Now().UTC().Unix(),
 	}
 	err = repository.Save("./tmp/transactions.txt", tx)
 	if err != nil {

@@ -10,7 +10,7 @@ import (
 
 func CreateLedgerEntry(le *LedgerEntry) error {
 	le.ID = uuid.NewString()
-	le.PostedAt = time.Now().Unix()
+	le.PostedAt = time.Now().UTC().Unix()
 
 	err := repository.Save("./tmp/ledger_entries.txt", le)
 	if err != nil {

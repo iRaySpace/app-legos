@@ -12,8 +12,8 @@ import (
 func CreateAccount(dto *CreateAccountDTO) (*domain.Account, error) {
 	a := domain.Account{
 		ID:        uuid.NewString(),
-		CreatedAt: time.Now().Unix(),
-		UpdatedAt: time.Now().Unix(),
+		CreatedAt: time.Now().UTC().Unix(),
+		UpdatedAt: time.Now().UTC().Unix(),
 		Name:      dto.Name,
 		Number:    dto.Number,
 		Balance:   0,

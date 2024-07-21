@@ -1,7 +1,9 @@
 package tx
 
 import (
+	"cmp"
 	"errors"
+	"slices"
 	"time"
 
 	"github.com/google/uuid"
@@ -44,6 +46,30 @@ func CreateTx(dto *CreateTxDTO) (*domain.Tx, error) {
 	}
 
 	return &tx, nil
+}
+
+func GetTxsByNumber(number string) ([]domain.Tx, error) {
+	txs, err := repository.GetAll[domain.Tx]("./tmp/transactions.txt")
+	if err != nil {
+		return nil, err
+	}
+
+	filteredTxs := []domain.Tx{}
+	for _, tx := range txs {
+		attachTxDescription(number, &tx)
+		if tx.Source != nil && tx.Source.Number == number {
+			filteredTxs = append(filteredTxs, tx)
+		} else if tx.Destination != nil && tx.Destination.Number == number {
+			filteredTxs = append(filteredTxs, tx)
+		}
+	}
+
+	// Sort Z-A by PostedAt
+	slices.SortFunc(filteredTxs, func(a, b domain.Tx) int {
+		return cmp.Compare(b.PostedAt, a.PostedAt)
+	})
+
+	return filteredTxs, nil
 }
 
 func validateTxFields(dto *CreateTxDTO) error {
@@ -100,4 +126,15 @@ func createTransferEntries(tx *domain.Tx) error {
 	}
 
 	return nil
+}
+
+// Should be in the creation of transactions
+func attachTxDescription(number string, tx *domain.Tx) {
+	if tx.Destination.Number == number && tx.Source != nil {
+		tx.Description = "Received from " + tx.Source.Name
+	} else if tx.Destination.Number == number && tx.Source == nil {
+		tx.Description = "Deposited money"
+	} else if tx.Source != nil && tx.Source.Number == number {
+		tx.Description = "Sent to " + tx.Destination.Name
+	}
 }

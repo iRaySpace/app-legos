@@ -7,7 +7,7 @@ import (
 
 func AttachApi(g *echo.Group) {
 	g.POST("/txs", createTx)
-	g.GET("/txs", getTxs)
+	g.GET("/txs/:number", getTxsByNumber)
 }
 
 func createTx(c echo.Context) error {
@@ -25,7 +25,11 @@ func createTx(c echo.Context) error {
 	return c.JSON(201, tx)
 }
 
-func getTxs(c echo.Context) error {
-	data := []string{}
+func getTxsByNumber(c echo.Context) error {
+	data, err := GetTxsByNumber(c.Param("number"))
+	if err != nil {
+		app.LogError(err)
+		return app.NewInternalServerError(c, "Unable to get transactions")
+	}
 	return c.JSON(200, map[string]interface{}{"data": data})
 }

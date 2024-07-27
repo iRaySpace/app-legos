@@ -15,13 +15,18 @@
                                 <img src="/user-01.png" alt="User">
                             </span>
                         </a>
-                        <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] mt-4 w-52 p-2 shadow">
-                            <li><a>My Profile</a></li>
-                            <li><a>Logout</a></li>
-                        </ul>
+                        <div class="dropdown-content bg-white z-[1] mt-4 w-60 rounded-sm shadow">
+                            <ul class="px-6 py-6 flex flex-col gap-5">
+                                <li><a href="#" class="flex gap-3.5 hover:text-primary text-sm font-medium text-gray-600">
+                                        <IconsPerson /> My Profile
+                                    </a></li>
+                                <li><a href="#" class="flex gap-3.5 hover:text-primary text-sm font-medium text-gray-600">
+                                        <IconsExit /> Log Out
+                                    </a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </header>
         </div>
-    </div>
-</template>
+</div></template>

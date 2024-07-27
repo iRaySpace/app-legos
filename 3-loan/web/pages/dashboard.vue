@@ -2,7 +2,7 @@
     <div class="flex h-screen overflow">
         <SideMenu />
         <div class="flex-1 flex flex-col">
-            <header class="w-full border-b border-gray-200">
+            <header class="w-full border-b border-gray-200 bg-white">
                 <div class="px-6 py-4 flex justify-between">
                     <div></div>
                     <div class="dropdown dropdown-end">

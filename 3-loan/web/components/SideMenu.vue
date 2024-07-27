@@ -1,5 +1,5 @@
 <template>
-    <aside class="h-screen w-64 flex-col overflow-y-hidden border-r border-gray-200">
+    <aside class="h-screen w-64 flex-col overflow-y-hidden border-r border-gray-200 bg-white">
         <div id="side-menu-header" class="flex justify-center px-6 py-7 border-b border-gray-200">
             <a href="/dashboard">
                 <svg viewBox="0 0 248 31" class="w-auto h-6">

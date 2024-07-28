@@ -27,7 +27,7 @@
                             <a href="#"
                                 class="flex items-center gap-2.5 px-4 py-2 text-gray-900 rounded-lg hover:bg-gray-100">
                                 <IconsText />
-                                Request for Loan
+                                Loan Applications
                             </a>
                         </li>
                     </ul>

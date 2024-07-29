@@ -4,7 +4,7 @@
             <div></div>
             <div class="dropdown dropdown-end">
                 <a href="#" role="button" class="flex items-center gap-4">
-                    <span>
+                    <span class="hidden sm:block">
                         <span class="block text-sm font-medium text-black">Ivan Ivanov Ivanovich</span>
                         <span class="block text-xs font-medium">Software Engineer</span>
                     </span>
